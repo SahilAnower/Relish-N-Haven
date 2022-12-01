@@ -35,9 +35,12 @@ function OrderHistoryScreen() {
     const fetchData = async () => {
       dispatch({ type: 'FETCH_REQUEST' });
       try {
-        const { data } = await axios.get(`/api/orders/mine`, {
-          headers: { Authorization: `Bearer ${userInfo.token}` },
-        });
+        const { data } = await axios.get(
+          `https://relish-n-haven-backend.onrender.com/api/orders/mine`,
+          {
+            headers: { Authorization: `Bearer ${userInfo.token}` },
+          }
+        );
         dispatch({
           type: 'FETCH_SUCCESS',
           payload: data,

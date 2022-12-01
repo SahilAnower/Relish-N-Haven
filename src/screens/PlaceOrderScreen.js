@@ -50,7 +50,7 @@ function PlaceOrderScreen() {
       dispatch({ type: 'CREATE_REQUEST' });
 
       const { data } = await Axios.post(
-        '/api/orders',
+        'https://relish-n-haven-backend.onrender.com/api/orders',
         {
           orderItems: cart.cartItems,
           shippingAddress: cart.shippingAddress,

@@ -37,7 +37,7 @@ function ProfileScreen() {
     e.preventDefault();
     try {
       const { data } = await axios.put(
-        '/api/users/profile',
+        'https://relish-n-haven-backend.onrender.com/api/users/profile',
         {
           name,
           email,

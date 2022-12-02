@@ -55,6 +55,10 @@ function OrderScreen() {
 
   const [{ isPending }, paypalDispatch] = usePayPalScriptReducer();
 
+  const BACKEND = process.env.PROD
+    ? process.env.PROD_BACKEND
+    : process.env.DEV_BACKEND;
+
   function createOrder(data, actions) {
     return actions.order
       .create({
@@ -74,7 +78,7 @@ function OrderScreen() {
       try {
         dispatch({ type: 'PAY_REQUEST' });
         const { data } = await axios.put(
-          `https://relish-n-haven-backend.onrender.com/api/orders/${order._id}/pay`,
+          `${BACKEND}/api/orders/${order._id}/pay`,
           details,
           {
             headers: { authorization: `Bearer ${userInfo.token}` },
@@ -99,12 +103,9 @@ function OrderScreen() {
     const fetchOrder = async () => {
       try {
         dispatch({ type: 'FETCH_REQUEST' });
-        const { data } = await axios.get(
-          `https://relish-n-haven-backend.onrender.com/api/orders/${orderId}`,
-          {
-            headers: { authorization: `Bearer ${userInfo.token}` },
-          }
-        );
+        const { data } = await axios.get(`${BACKEND}/api/orders/${orderId}`, {
+          headers: { authorization: `Bearer ${userInfo.token}` },
+        });
         dispatch({ type: 'FETCH_SUCCESS', payload: data });
       } catch (err) {
         dispatch({ type: 'FETCH_FAIL', payload: getError(err) });
@@ -120,7 +121,7 @@ function OrderScreen() {
     } else {
       const loadPaypalScript = async () => {
         const { data: clientId } = await axios.get(
-          'https://relish-n-haven-backend.onrender.com/api/keys/paypal',
+          `${BACKEND}/api/keys/paypal`,
           {
             headers: { authorization: `Bearer ${userInfo.token}` },
           }

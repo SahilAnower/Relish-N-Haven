@@ -22,16 +22,17 @@ function SigninScreen() {
 
   const { userInfo } = state;
 
+  const BACKEND = process.env.PROD
+    ? process.env.PROD_BACKEND
+    : process.env.DEV_BACKEND;
+
   const submitHandler = async (e) => {
     e.preventDefault();
     try {
-      const { data } = await Axios.post(
-        'https://relish-n-haven-backend.onrender.com/api/users/signin',
-        {
-          email,
-          password,
-        }
-      );
+      const { data } = await Axios.post(`${BACKEND}/api/users/signin`, {
+        email,
+        password,
+      });
       ctxDispatch({ type: 'USER_SIGNIN', payload: data });
       localStorage.setItem('userInfo', JSON.stringify(data));
       navigate(redirect || '/');

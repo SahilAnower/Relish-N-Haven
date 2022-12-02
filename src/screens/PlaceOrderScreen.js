@@ -45,12 +45,16 @@ function PlaceOrderScreen() {
   cart.taxPrice = round2(0.15 * cart.itemsPrice);
   cart.totalPrice = cart.itemsPrice + cart.shippingPrice + cart.taxPrice;
 
+  const BACKEND = process.env.PROD
+    ? process.env.PROD_BACKEND
+    : process.env.DEV_BACKEND;
+
   const placeOrderHandler = async () => {
     try {
       dispatch({ type: 'CREATE_REQUEST' });
 
       const { data } = await Axios.post(
-        'https://relish-n-haven-backend.onrender.com/api/orders',
+        `${BACKEND}/api/orders`,
         {
           orderItems: cart.cartItems,
           shippingAddress: cart.shippingAddress,

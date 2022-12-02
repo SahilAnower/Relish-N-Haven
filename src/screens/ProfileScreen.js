@@ -33,11 +33,15 @@ function ProfileScreen() {
     loadingUpdate: false,
   });
 
+  const BACKEND = process.env.PROD
+    ? process.env.PROD_BACKEND
+    : process.env.DEV_BACKEND;
+
   const submitHandler = async (e) => {
     e.preventDefault();
     try {
       const { data } = await axios.put(
-        'https://relish-n-haven-backend.onrender.com/api/users/profile',
+        `${BACKEND}/api/users/profile`,
         {
           name,
           email,

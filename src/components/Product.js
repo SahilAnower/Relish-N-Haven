@@ -12,12 +12,14 @@ function Product({ product }) {
     cart: { cartItems },
   } = state;
 
+  const BACKEND = process.env.PROD
+    ? process.env.PROD_BACKEND
+    : process.env.DEV_BACKEND;
+
   const addToCartHandler = async (item) => {
     const existItem = cartItems.find((x) => x._id === product._id);
     const quantity = existItem ? existItem.quantity + 1 : 1;
-    const { data } = await axios.get(
-      `https://relish-n-haven-backend.onrender.com/api/products/${item._id}`
-    );
+    const { data } = await axios.get(`${BACKEND}/api/products/${item._id}`);
     if (data.countInStock < quantity) {
       window.alert('Sorry. Product is out of stock');
       return;

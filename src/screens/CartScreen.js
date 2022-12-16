@@ -17,9 +17,7 @@ function CartScreen() {
     cart: { cartItems },
   } = state;
 
-  const BACKEND = process.env.PROD
-    ? process.env.PROD_BACKEND
-    : process.env.DEV_BACKEND;
+  const BACKEND = 'https://relish-n-haven-backend.onrender.com'
 
   const updateCartHandler = async (item, quantity) => {
     const { data } = await axios.get(`${BACKEND}/api/products/${item._id}`);

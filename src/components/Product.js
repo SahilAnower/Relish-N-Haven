@@ -12,9 +12,7 @@ function Product({ product }) {
     cart: { cartItems },
   } = state;
 
-  const BACKEND = process.env.PROD
-    ? process.env.PROD_BACKEND
-    : process.env.DEV_BACKEND;
+  const BACKEND = 'http://localhost:5000';
 
   const addToCartHandler = async (item) => {
     const existItem = cartItems.find((x) => x._id === product._id);

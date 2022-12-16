@@ -6,13 +6,14 @@ import Badge from 'react-bootstrap/Badge';
 import Nav from 'react-bootstrap/Nav';
 import NavDropdown from 'react-bootstrap/NavDropdown';
 import Container from 'react-bootstrap/Container';
+import Button from 'react-bootstrap/Button';
 import { LinkContainer } from 'react-router-bootstrap';
 import { Link } from 'react-router-dom';
 import { Store } from './Store';
-import { useContext } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import CartScreen from './screens/CartScreen';
 import SignInScreen from './screens/SigninScreen';
-import { ToastContainer } from 'react-toastify';
+import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import ShippingAddressScreen from './screens/ShippingAddressScreen';
 import SignupScreen from './screens/SignupScreen';
@@ -21,10 +22,19 @@ import PlaceOrderScreen from './screens/PlaceOrderScreen';
 import OrderScreen from './screens/OrderScreen';
 import OrderHistoryScreen from './screens/OrderHistoryScreen';
 import ProfileScreen from './screens/ProfileScreen';
+import { getError } from './utils';
+import axios from 'axios';
+import SearchBox from './components/SearchBox';
+import SearchScreen from './screens/SearchScreen';
+import ProtectedRoute from './components/ProtectedRoute';
+import DashboardScreen from './screens/DashboardScreen';
+import AdminRoute from './components/AdminRoute';
 
 function App() {
   const { state, dispatch: ctxDispatch } = useContext(Store);
   const { cart, userInfo } = state;
+
+  const [categories, setCategories] = useState([]);
 
   const signoutHandler = () => {
     ctxDispatch({ type: 'USER_SIGNOUT' });
@@ -34,17 +44,47 @@ function App() {
     window.location.href = '/signin';
   };
 
+  const [sidebarIsOpen, setSidebarIsOpen] = useState(false);
+
+  const BACKEND = 'https://relish-n-haven-backend.onrender.com';
+
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const { data } = await axios.get(`${BACKEND}/api/products/categories`);
+        setCategories(data);
+      } catch (err) {
+        toast.error(getError(err));
+      }
+    };
+    fetchCategories();
+  }, []);
+
   return (
-    <div className="App d-flex flex-column site-container">
+    <div
+      className={
+        sidebarIsOpen
+          ? 'App d-flex flex-column site-container active-cont'
+          : 'd-flex flex-column site-container'
+      }
+    >
       <ToastContainer position="bottom-center" limit={1} />
       <header>
         <Navbar bg="dark" variant="dark" expand="lg">
           <Container>
+            <Button
+              variant="dark"
+              onClick={() => setSidebarIsOpen(!sidebarIsOpen)}
+            >
+              <i className="fas fa-bars"></i>
+            </Button>
+
             <LinkContainer to="/">
               <Navbar.Brand>Relish'N Haven</Navbar.Brand>
             </LinkContainer>
             <Navbar.Toggle aria-controls="basic-navbar-nav" />
             <Navbar.Collapse id="basic-navbar-nav">
+              <SearchBox />
               <Nav className="me-auto w-100 justify-content-end">
                 <Link to="/cart" className="nav-link">
                   Cart
@@ -76,24 +116,97 @@ function App() {
                     Sign In
                   </Link>
                 )}
+                {userInfo && userInfo.isAdmin && (
+                  <NavDropdown title="Admin" id="admin-nav-dropdown">
+                    <LinkContainer to="/admin/dashboard">
+                      <NavDropdown.Item>Dashboard</NavDropdown.Item>
+                    </LinkContainer>
+                    <LinkContainer to="/productlist">
+                      <NavDropdown.Item>Products</NavDropdown.Item>
+                    </LinkContainer>
+                    <LinkContainer to="/orderlist">
+                      <NavDropdown.Item>Orders</NavDropdown.Item>
+                    </LinkContainer>
+                    <LinkContainer to="/userlist">
+                      <NavDropdown.Item>Users</NavDropdown.Item>
+                    </LinkContainer>
+                  </NavDropdown>
+                )}
               </Nav>
             </Navbar.Collapse>
           </Container>
         </Navbar>
       </header>
+      <div
+        className={
+          sidebarIsOpen
+            ? 'active-nav side-navbar d-flex justify-content-between flex-wrap flex-column'
+            : 'side-navbar d-flex justify-content-between flex-wrap flex-column'
+        }
+      >
+        <Nav className="flex-column text-white w-100 p-2">
+          <Nav.Item>
+            <strong>Categories</strong>
+          </Nav.Item>
+          {categories.map((category) => (
+            <Nav.Item key={category}>
+              <LinkContainer
+                to={{
+                  pathname: '/search',
+                  search: `?category=${category}`,
+                }}
+                onClick={() => setSidebarIsOpen(false)}
+              >
+                <Nav.Link>{category}</Nav.Link>
+              </LinkContainer>
+            </Nav.Item>
+          ))}
+        </Nav>
+      </div>
       <main>
         <Container className="mt-3">
           <Routes>
             <Route path="/product/:slug" element={<ProductScreen />} />
+            <Route path="/search" element={<SearchScreen />} />
             <Route path="/cart" element={<CartScreen />} />
             <Route path="/signin" element={<SignInScreen />} />
             <Route path="/signup" element={<SignupScreen />} />
-            <Route path="/profile" element={<ProfileScreen />} />
+            <Route
+              path="/profile"
+              element={
+                <ProtectedRoute>
+                  <ProfileScreen />
+                </ProtectedRoute>
+              }
+            />
             <Route path="/placeorder" element={<PlaceOrderScreen />} />
-            <Route path="/orders/:id" element={<OrderScreen />} />
-            <Route path="/orderhistory" element={<OrderHistoryScreen />} />
+            <Route
+              path="/orders/:id"
+              element={
+                <ProtectedRoute>
+                  <OrderScreen />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/orderhistory"
+              element={
+                <ProtectedRoute>
+                  <OrderHistoryScreen />
+                </ProtectedRoute>
+              }
+            />
             <Route path="/shipping" element={<ShippingAddressScreen />} />
             <Route path="/payment" element={<PaymentMethodScreen />} />
+            {/* Admin Routes */}
+            <Route
+              path="/admin/dashboard"
+              element={
+                <AdminRoute>
+                  <DashboardScreen />
+                </AdminRoute>
+              }
+            />
             <Route path="/" element={<HomeScreen />} />
           </Routes>
         </Container>

@@ -39,7 +39,7 @@ function ProductScreen() {
   const params = useParams();
   const { slug } = params;
 
-  const BACKEND = process.env.PROD ? process.env.PROD_BACKEND : process.env.DEV_BACKEND
+  const BACKEND = 'https://relish-n-haven-backend.onrender.com';
 
   useEffect(() => {
     const fetchData = async () => {

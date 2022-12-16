@@ -24,9 +24,7 @@ function SignupScreen() {
 
   const { userInfo } = state;
 
-  const BACKEND = process.env.PROD
-    ? process.env.PROD_BACKEND
-    : process.env.DEV_BACKEND;
+  const BACKEND = 'https://relish-n-haven-backend.onrender.com';
 
   const submitHandler = async (e) => {
     e.preventDefault();

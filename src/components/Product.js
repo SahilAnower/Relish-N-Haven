@@ -12,7 +12,7 @@ function Product({ product }) {
     cart: { cartItems },
   } = state;
 
-  const BACKEND = 'http://localhost:5000';
+  const BACKEND = 'https://relish-n-haven-backend.onrender.com';
 
   const addToCartHandler = async (item) => {
     const existItem = cartItems.find((x) => x._id === product._id);

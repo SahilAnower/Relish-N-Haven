@@ -29,6 +29,7 @@ import SearchScreen from './screens/SearchScreen';
 import ProtectedRoute from './components/ProtectedRoute';
 import DashboardScreen from './screens/DashboardScreen';
 import AdminRoute from './components/AdminRoute';
+import { BACKEND } from './utils';
 
 function App() {
   const { state, dispatch: ctxDispatch } = useContext(Store);
@@ -45,8 +46,6 @@ function App() {
   };
 
   const [sidebarIsOpen, setSidebarIsOpen] = useState(false);
-
-  const BACKEND = 'https://relish-n-haven-backend.onrender.com';
 
   useEffect(() => {
     const fetchCategories = async () => {

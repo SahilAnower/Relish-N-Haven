@@ -7,6 +7,7 @@ import { Store } from '../Store';
 import { getError } from '../utils';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { BACKEND } from '../utils';
 
 const reducer = (state, action) => {
   switch (action.type) {
@@ -30,8 +31,6 @@ function OrderHistoryScreen() {
     loading: true,
     error: '',
   });
-
-  const BACKEND = 'https://relish-n-haven-backend.onrender.com';
 
   useEffect(() => {
     const fetchData = async () => {

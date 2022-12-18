@@ -33,7 +33,7 @@ function ProfileScreen() {
     loadingUpdate: false,
   });
 
-  const BACKEND = 'https://relish-n-haven-backend.onrender.com';
+  const BACKEND = 'http://localhost:5000';
 
   const submitHandler = async (e) => {
     e.preventDefault();

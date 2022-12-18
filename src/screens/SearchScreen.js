@@ -11,6 +11,7 @@ import LoadingBox from '../components/LoadingBox';
 import MessageBox from '../components/MessageBox';
 import Product from '../components/Product';
 import { LinkContainer } from 'react-router-bootstrap';
+import { BACKEND } from '../utils';
 
 const reducer = (state, action) => {
   switch (action.type) {
@@ -82,8 +83,6 @@ function SearchScreen() {
       loading: true,
       error: '',
     });
-
-  const BACKEND = 'https://relish-n-haven-backend.onrender.com';
 
   useEffect(() => {
     const fetchData = async () => {

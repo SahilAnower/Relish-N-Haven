@@ -13,6 +13,7 @@ import Card from 'react-bootstrap/Card';
 import { Link } from 'react-router-dom';
 import { PayPalButtons, usePayPalScriptReducer } from '@paypal/react-paypal-js';
 import { toast } from 'react-toastify';
+import { BACKEND } from '../utils';
 
 function reducer(state, action) {
   switch (action.type) {
@@ -54,8 +55,6 @@ function OrderScreen() {
     });
 
   const [{ isPending }, paypalDispatch] = usePayPalScriptReducer();
-
-  const BACKEND = 'https://relish-n-haven-backend.onrender.com'
 
   function createOrder(data, actions) {
     return actions.order

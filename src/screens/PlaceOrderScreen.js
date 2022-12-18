@@ -12,6 +12,7 @@ import { getError } from '../utils';
 import { toast } from 'react-toastify';
 import Axios from 'axios';
 import LoadingBox from '../components/LoadingBox';
+import { BACKEND } from '../utils';
 
 const reducer = (state, action) => {
   switch (action.type) {
@@ -44,8 +45,6 @@ function PlaceOrderScreen() {
   cart.shippingPrice = cart.itemsPrice > 100 ? round2(0) : round2(10);
   cart.taxPrice = round2(0.15 * cart.itemsPrice);
   cart.totalPrice = cart.itemsPrice + cart.shippingPrice + cart.taxPrice;
-
-  const BACKEND = 'https://relish-n-haven-backend.onrender.com';
 
   const placeOrderHandler = async () => {
     try {

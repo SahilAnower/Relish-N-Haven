@@ -6,6 +6,7 @@ import Product from '../components/Product';
 import { Helmet } from 'react-helmet-async';
 import LoadingBox from '../components/LoadingBox';
 import MessageBox from '../components/MessageBox';
+import { BACKEND } from '../utils';
 // import data from '../data';
 
 const reducer = (state, action) => {
@@ -27,8 +28,6 @@ function HomeScreen() {
     loading: true,
     error: '',
   });
-
-  const BACKEND = 'https://relish-n-haven-backend.onrender.com';
 
   // const [products, setProducts] = useState([]);
 

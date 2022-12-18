@@ -17,7 +17,7 @@ main {
 
 .btn-primary,
 .btn-outline-primary {
-  background-color: #f0c040;
+  background-color: #00fff6;
   color: #000;
 }
 
@@ -28,7 +28,7 @@ main {
 }
 
 .rating span {
-  color: #ffc000;
+  color: #678983;
 }
 
 .product {
@@ -63,8 +63,8 @@ main {
 }
 
 .checkout-steps > div.active {
-  border-bottom: 0.2rem solid #f08000;
-  color: #f08000;
+  border-bottom: 0.2rem solid #00fff6;
+  color: #00fff6;
 }
 
 .navbar-brand {
@@ -76,7 +76,7 @@ main {
   height: 100%;
   position: absolute;
   left: -300px;
-  background-color: #100901;
+  background-color: #2b3467;
   transition: 0.5s;
 }
 

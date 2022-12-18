@@ -8,6 +8,7 @@ import Axios from 'axios';
 import { Store } from '../Store.js';
 import { toast } from 'react-toastify';
 import { getError } from '../utils.js';
+import { BACKEND } from '../utils';
 
 function SignupScreen() {
   const navigate = useNavigate();
@@ -23,8 +24,6 @@ function SignupScreen() {
   const { state, dispatch: ctxDispatch } = useContext(Store);
 
   const { userInfo } = state;
-
-  const BACKEND = 'https://relish-n-haven-backend.onrender.com';
 
   const submitHandler = async (e) => {
     e.preventDefault();

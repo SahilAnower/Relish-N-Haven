@@ -13,6 +13,7 @@ import LoadingBox from '../components/LoadingBox';
 import MessageBox from '../components/MessageBox';
 import { getError } from '../utils';
 import { Store } from '../Store';
+import { BACKEND } from '../utils';
 
 const reducer = (state, action) => {
   switch (action.type) {
@@ -38,8 +39,6 @@ function ProductScreen() {
 
   const params = useParams();
   const { slug } = params;
-
-  const BACKEND = 'https://relish-n-haven-backend.onrender.com';
 
   useEffect(() => {
     const fetchData = async () => {

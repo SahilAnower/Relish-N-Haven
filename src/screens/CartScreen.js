@@ -9,6 +9,7 @@ import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { BACKEND } from '../utils';
 
 function CartScreen() {
   const navigate = useNavigate();
@@ -16,8 +17,6 @@ function CartScreen() {
   const {
     cart: { cartItems },
   } = state;
-
-  const BACKEND = 'https://relish-n-haven-backend.onrender.com'
 
   const updateCartHandler = async (item, quantity) => {
     const { data } = await axios.get(`${BACKEND}/api/products/${item._id}`);
